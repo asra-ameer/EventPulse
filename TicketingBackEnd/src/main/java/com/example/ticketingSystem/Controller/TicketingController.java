@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 
     @RestController
     @RequestMapping("api/ticketing")
+    @CrossOrigin("http://localhost:4200/")
     public class TicketingController{
 
         private ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -50,14 +51,14 @@ import java.util.concurrent.Executors;
 
         }
         @PostMapping("/start-vendor")
-        public ResponseEntity<String> startVendor(@RequestParam int vendorID, @RequestParam int ticketReleaseRate) {
-            if (vendorID <= 0 || ticketReleaseRate <= 0) {
+        public ResponseEntity<String> startVendor(@RequestParam int vendorId, @RequestParam int ticketReleaseRate) {
+            if (vendorId <= 0 || ticketReleaseRate <= 0) {
                 return ResponseEntity.badRequest().body("Vendor ID and release rate must be positive integers.");
             }
-            VendorService vendor = new VendorService(ticketPoolService,vendorID, ticketReleaseRate);
+            VendorService vendor = new VendorService(ticketPoolService,vendorId, ticketReleaseRate);
             vendor.setTicketPoolService(ticketPoolService);
             executorService.submit(vendor);
-            return ResponseEntity.ok("Vendor " + vendorID + " started.");
+            return ResponseEntity.ok("Vendor " + vendorId + " started.");
         }
 
         @PostMapping("/start-customer")
