@@ -19,6 +19,9 @@ src/main/java/com/example/ticketingSystem
 ├── Controller
 │   └── TicketingController.java   # Handles API requests and system controls
 │
+├── Config
+│   └── ApplicationCOnfiguration.java   # Handles CLI system controls
+│
 ├── Modules
 │   ├── Vendor.java                # Defines the Vendor entity
 │   ├── Customer.java              # Defines the Customer entity
@@ -29,7 +32,8 @@ src/main/java/com/example/ticketingSystem
 │   ├── CustomerService.java       # Handles ticket purchase logic for customers
 │   └── TicketPoolService.java     # Manages ticket operations and data synchronization
 │
-└── Application.java               # Main Spring Boot application entry point
+└── TicketingSystemApplication.java             # Main Spring Boot application entry point
+└── CLIConfiguration.java                       # Main CLI application entry point
 ```
 
 # Setup Instructions
