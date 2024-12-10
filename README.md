@@ -1,16 +1,16 @@
-Real-Time Event Ticketing System
-Introduction
-The Real-Time Event Ticketing System is a high-performance application designed to manage dynamic ticket releases and purchases in real-time. It supports vendors releasing tickets and customers purchasing them while maintaining data integrity through multi-threading and synchronization.
+# Real-Time Event Ticketing System
 
-Key features include:
+## Introduction
+The Real-Time Event Ticketing System is a dynamic, high-performance application for managing ticket releases and purchases in real-time. The system ensures data integrity through multi-threading and synchronization, supporting the following features:
+- Setting maximum ticket limits for events and ticket pools.
+- Adding vendors to release tickets and customers to purchase them at configurable rates.
+- Monitoring ticket availability and sales.
+- Stopping and resetting the system dynamically.
 
-Setting maximum ticket limits for events and ticket pools.
-Adding vendors and customers with configurable rates.
-Monitoring system status (tickets available and sold).
-Stopping and resetting the system dynamically.
-Folder Structure
-The project follows a modular structure for better maintainability:
+---
 
+## Folder Structure
+The project is organized as follows:
 
 src/main/java/com/example/ticketingSystem
 │
