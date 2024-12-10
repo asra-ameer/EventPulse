@@ -26,6 +26,14 @@ import java.util.concurrent.Executors;
         public TicketingController(TicketPoolService ticketPoolService) {
             this.ticketPoolService = ticketPoolService;
         }
+
+        /**
+         * Sets the maximum number of event tickets allowed.
+         *
+         * @param maxEventTickets The maximum number of tickets for an event (sent in the request body).
+         * @return ResponseEntity containing a confirmation message.
+         */
+
         @PostMapping("/set-max-event-tickets")
         public ResponseEntity<String> setMaxEventTickets(@RequestBody int maxEventTickets)
         {
@@ -33,12 +41,24 @@ import java.util.concurrent.Executors;
             return ResponseEntity.ok("Max event tickets set to " + maxEventTickets);
         }
 
+        /**
+         * Sets the maximum number of tickets in the pool.
+         *
+         * @param maxPoolTickets The maximum number of tickets in the pool (sent in the request body).
+         * @return ResponseEntity containing a confirmation message.
+         */
+        
         @PostMapping("/set-max-pool-tickets")
         public ResponseEntity<String> setMaxPoolTickets(@RequestBody int maxPoolTickets){
             ticketPoolService.setpoolTicketLimit(maxPoolTickets);
             return ResponseEntity.ok("Max pool tickets set to "+maxPoolTickets);
         }
 
+        /**
+         * Stops the system by shutting down the thread pool, resetting the ticket pool, and reinitializing the thread pool.
+         *
+         * @return ResponseEntity containing a confirmation message.
+         */
         @PostMapping("/stop")
         public ResponseEntity<String> stopAll() {
             isStopped = true;
@@ -50,6 +70,14 @@ import java.util.concurrent.Executors;
             return ResponseEntity.ok("System stopped and reset.");
 
         }
+
+        /**
+         * Starts a vendor task that releases tickets at a specified rate.
+         *
+         * @param vendorId          The unique ID of the vendor.
+         * @param ticketReleaseRate The rate at which the vendor releases tickets.
+         * @return ResponseEntity containing a confirmation message.
+         */
         @PostMapping("/start-vendor")
         public ResponseEntity<String> startVendor(@RequestParam int vendorId, @RequestParam int ticketReleaseRate) {
             if (vendorId <= 0 || ticketReleaseRate <= 0) {
@@ -61,6 +89,13 @@ import java.util.concurrent.Executors;
             return ResponseEntity.ok("Vendor " + vendorId + " started.");
         }
 
+        /**
+         * Starts a customer task that retrieves tickets at a specified rate.
+         *
+         * @param customerId            The unique ID of the customer.
+         * @param customerRetrievalRate The rate at which the customer retrieves tickets.
+         * @return ResponseEntity containing a confirmation message.
+         */
         @PostMapping("/start-customer")
         public ResponseEntity<String> startCustomer(@RequestParam int customerId, @RequestParam int customerRetrievalRate) {
             if (customerId <= 0 || customerRetrievalRate <= 0) {
@@ -72,6 +107,11 @@ import java.util.concurrent.Executors;
             return ResponseEntity.ok("Customer " + customerId + " started.");
         }
 
+        /**
+         * Provides the current status of the ticket pool.
+         *
+         * @return ResponseEntity containing a map with the available tickets and tickets sold.
+         */
         @GetMapping("/status")
         public ResponseEntity<Map<String, Object>> status() {
             Map<String, Object> response = new HashMap<>();
