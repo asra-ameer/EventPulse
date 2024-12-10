@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { interval, Subscription } from 'rxjs';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 
 
@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   message?: string;
   private pollingSubscription?: Subscription;
   private isStopped: boolean = false;
-
+  logs: string[] = [];
 
   constructor(private http: HttpClient) {
     
@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.pollingSubscription = interval(10).subscribe(() => {
       this.getTicketCount();
     });
+    this.addLog('Dashboard initialized.');
   }
 
   startPolling() {
@@ -47,7 +48,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getTicketCount() {
     this.http
       .get<{ availableTickets: number; ticketsSold: number }>(
-        'http://localhost:8080/api/ticketing/status'
+        'http://localhost:8080/api/eventticket/status'
       )
       .subscribe(
         (response) => {
@@ -77,10 +78,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ) {
       this.message =
         'Please enter valid positive values for Vendor ID and Ticket  Release Rate.';
+        this.addLog('Invalid vendor input detected.');
       return;
     }
+    this.addLog(`Vendor ${this.vendorId} started with rate ${this.ticketReleaseRate} ms.`);
     this.http
-      .post('http://localhost:8080/api/ticketing/start-vendor', null, {
+      .post('http://localhost:8080/api/eventticket/start-vendor', null, {
         params: {
           vendorId: this.vendorId,
           ticketReleaseRate: this.ticketReleaseRate,
@@ -108,10 +111,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ) {
       this.message =
         'Please enter valid positive values for Customer ID and Customer Retrieval Rate.';
+        this.addLog('Invalid customer input detected.');
+
       return;
     }
+    this.addLog(`Customer ${this.customerId} started with rate ${this.customerRetrievalRate} ms.`);
     this.http
-      .post('http://localhost:8080/api/ticketing/start-customer', null, {
+      .post('http://localhost:8080/api/eventticket/start-customer', null, {
         params: {
           customerId: this.customerId.toString(),
           customerRetrievalRate: this.customerRetrievalRate.toString(),
@@ -133,7 +139,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   setMaxEventTickets() {
     this.http
       .post(
-        `http://localhost:8080/api/ticketing/set-max-event-tickets?maxEventTickets=${this.maxEventTickets}`,
+        `http://localhost:8080/api/eventticket/set-max-event-tickets?maxEventTickets=${this.maxEventTickets}`,
         null
       )
       .subscribe((response) => {
@@ -144,7 +150,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   setMaxPoolTickets() {
     this.http
       .post(
-        `http://localhost:8080/api/ticketing/set-max-pool-tickets?maxPoolTickets=${this.maxPoolTickets}`,
+        `http://localhost:8080/api/eventticket/set-max-pool-tickets?maxPoolTickets=${this.maxPoolTickets}`,
         null
       )
       .subscribe((response) => {
@@ -152,9 +158,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
+  addLog(message: string): void {
+    const timestamp = new Date().toISOString();
+    this.logs.push(`[${timestamp}] ${message}`);
+  }
+
+  clearLogs(): void {
+    this.logs = [];
+    this.addLog('Logs cleared.');
+  }
+
   stopAll() {
     this.http
-      .post('http://localhost:8080/api/ticketing/stop', null, {
+      .post('http://localhost:8080/api/eventticket/stop', null, {
         responseType: 'text',
       })
       .subscribe(
@@ -176,6 +192,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if (this.pollingSubscription) {
             this.pollingSubscription.unsubscribe();
           }
+          this.addLog('System has been stopped.');
+
         },
         (error) => {
           console.error('Error stopping and resetting system', error);

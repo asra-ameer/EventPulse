@@ -1,12 +1,10 @@
 package com.example.ticketingSystem.Service;
 
 import com.example.ticketingSystem.modules.Ticket;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
+import java.util.logging.Logger;
 
 public class VendorService implements Runnable {
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(VendorService.class);
+    private static final Logger log = Logger.getLogger(TicketPoolService.class.getName());
     private TicketPoolService ticketPoolService;
     private int vendorID;
     private int releaseRate;
@@ -34,12 +32,12 @@ public class VendorService implements Runnable {
             try{
                 Thread.sleep(releaseRate);
                 if (ticketPoolService !=null){
-                    if (ticketPoolService.getAvailableTickets()+ ticketPoolService.getTicketsSold() >=ticketPoolService.getMaxEventTickets()){
-                        logger.warn("Vendor"+ vendorID + " cannot add ticket. Maximum event ticket limit reached.");
+                    if (ticketPoolService.getAvailableTickets()+ ticketPoolService.getTicketsSold() >=ticketPoolService.getEventTicketLimit()){
+                        log.warning("Vendor"+ vendorID + " cannot add ticket. Maximum event ticket limit reached.");
                         return;
                     }
-                    if (ticketPoolService.getAvailableTickets() >= ticketPoolService.getMaxPoolTickets()){
-                        logger.info("Vendor "+ vendorID + " waiting,max pool limit reached ");
+                    if (ticketPoolService.getAvailableTickets() >= ticketPoolService.getpoolTicketLimit()){
+                        log.info("Vendor "+ vendorID + " waiting,max pool limit reached ");
                         continue;
                     }
                     Ticket ticket = new Ticket(ticketID++);
@@ -49,7 +47,7 @@ public class VendorService implements Runnable {
             }
             catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                logger.warn("Vendor"+ vendorID + " interrupted");
+                log.warning("Vendor"+ vendorID + " interrupted");
                 break;
             }
         }

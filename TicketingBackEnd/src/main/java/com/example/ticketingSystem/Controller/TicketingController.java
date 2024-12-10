@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 
     @RestController
-    @RequestMapping("api/ticketing")
+    @RequestMapping("api/eventticket")
     @CrossOrigin("http://localhost:4200/")
     public class TicketingController{
 
@@ -29,13 +29,13 @@ import java.util.concurrent.Executors;
         @PostMapping("/set-max-event-tickets")
         public ResponseEntity<String> setMaxEventTickets(@RequestBody int maxEventTickets)
         {
-            ticketPoolService.setMaxEventTickets(maxEventTickets);
+            ticketPoolService.setEventTicketLimit(maxEventTickets);
             return ResponseEntity.ok("Max event tickets set to " + maxEventTickets);
         }
 
         @PostMapping("/set-max-pool-tickets")
         public ResponseEntity<String> setMaxPoolTickets(@RequestBody int maxPoolTickets){
-            ticketPoolService.setMaxPoolTickets(maxPoolTickets);
+            ticketPoolService.setpoolTicketLimit(maxPoolTickets);
             return ResponseEntity.ok("Max pool tickets set to "+maxPoolTickets);
         }
 

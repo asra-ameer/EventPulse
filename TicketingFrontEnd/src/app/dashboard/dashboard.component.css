@@ -217,3 +217,40 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.log-console {
+  background: #1e1e1e;
+  border-radius: 15px;
+  color: #c9c9c9;
+  padding: 10px;
+  font-family: monospace;
+  margin-top: 20px;
+  border: 1px solid #333;
+  height: 200px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.log-console h3 {
+  color: #ffffff;
+}
+
+.logs {
+  margin: 2px 0;
+  white-space: pre-wrap; 
+}
+
+.clear-logs {
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-top: 10px;
+}
+
+.clear-logs:hover {
+  background-color: #ff2a2a;
+}

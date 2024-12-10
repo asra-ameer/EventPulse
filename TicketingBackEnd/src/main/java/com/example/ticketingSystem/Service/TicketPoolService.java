@@ -2,54 +2,50 @@ package com.example.ticketingSystem.Service;
 import com.example.ticketingSystem.modules.Ticket;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-
+import java.util.logging.Logger;
 
 @Service
 public class TicketPoolService {
     public final Queue<Ticket> ticketPool = new ConcurrentLinkedQueue<>();
-    private  int maxPoolTickets=200;
-    private int  maxEventTickets=1000;
+    private  int poolTicketLimit=500;
+    private int  EventTicketLimit=10000;
     private int ticketSold=0;
-    private static final Logger logger = LoggerFactory.getLogger(TicketPoolService.class);
-    private Set<Integer> registeredVendors = new HashSet<>();
-    private Set<Integer> registeredCustomers = new HashSet<>();
+    private static final Logger log = Logger.getLogger(TicketPoolService.class.getName());
+    private Set<Integer> signedupSeller = new HashSet<>();
+    private Set<Integer> signedUpCustomer = new HashSet<>();
 
     public synchronized void addTicket(int vendorID, Ticket ticket) {
-        if ((ticketPool.size() +ticketSold)  >= maxEventTickets) {
-         logger.warn("Vendor "+ vendorID + "cannot add ticket.Maximum event tickets reached: "+maxEventTickets);
+        if ((ticketPool.size() +ticketSold)  >= EventTicketLimit) {
+         log.warning("Maximum event tickets reached: "+EventTicketLimit+", Vendor "+ vendorID + " cannot add ticket.");
           return;
         }
-        if (ticketPool.size()  >= maxPoolTickets){
-          logger.warn("Vendor "+ vendorID + " cannot add ticket.Maximum event tickets reached : {} "+maxPoolTickets);
+        if (ticketPool.size()  >= poolTicketLimit){
+          log.warning("Maximum event tickets reached :  "+poolTicketLimit+", Vendor "+ vendorID + " cannot add ticket.");
           return;
         }
 
         ticketPool.add(ticket);
-            logger.info("Vendor " +vendorID+ " Added ticket "+ticket.getTicketID() );
+            log.info("Vendor " +vendorID+ " Added ticket "+ticket.getTicketID() );
 
     }
     public synchronized void resetTicketPool() {
         ticketPool.clear();
         ticketSold=0;
-        registeredVendors.clear();
-        registeredCustomers.clear();
-        logger.info("Ticket pool has been reset");
+        signedupSeller.clear();
+        signedUpCustomer.clear();
+        log.info("Ticket pool cleared");
     }
     //remove means a selling a ticket
     public synchronized Ticket removeTicket() {
         Ticket ticket = ticketPool.poll();
         if (ticket !=null) {
             ticketSold++;
-            logger.info("Ticket Purchased: "+ticket.getTicketID());
+            log.info("Ticket Purchased: "+ticket.getTicketID());
         }else{
-            logger.warn("No ticket available for purchasing  ");
+            log.warning("No ticket available for purchase   ");
         }
         return ticket;
     }
@@ -63,37 +59,37 @@ public class TicketPoolService {
 
 // register vendor
     public synchronized boolean registerVendor(int vendorID){
-        if (registeredVendors.contains(vendorID)) {
-            logger.warn("Vendor "+vendorID + " already registered");
+        if (signedupSeller.contains(vendorID)) {
+            log.warning("Vendor "+vendorID + " already registered");
             return false;
         }
-        registeredVendors.add(vendorID);
-        logger.info("Vendor registered with ID"+vendorID);
+        signedupSeller.add(vendorID);
+        log.info("Vendor registered with ID"+vendorID);
         return true;
     }
     //Register customer and check if the ID is unique
     public synchronized boolean registerCustomer(int customerID){
-        if (registeredCustomers.contains(customerID)) {
-            logger.warn("Customer "+customerID + " already registered");
+        if (signedUpCustomer.contains(customerID)) {
+            log.warning("Customer "+customerID + " already registered");
             return false;
         }
-        registeredCustomers.add(customerID);
-        logger.info("Customer registered with ID"+customerID);
+        signedUpCustomer.add(customerID);
+        log.info("Customer registered with ID"+customerID);
         return true;
     }
-    public int getMaxEventTickets() {
-        return maxEventTickets;
+    public int getEventTicketLimit() {
+        return EventTicketLimit;
     }
 
-    public void setMaxEventTickets(int maxEventTickets) {
-        this.maxEventTickets = maxEventTickets;
+    public void setEventTicketLimit(int EventTicketLimit) {
+        this.EventTicketLimit = EventTicketLimit;
     }
 
-    public int getMaxPoolTickets() {
-        return maxPoolTickets;
+    public int getpoolTicketLimit() {
+        return poolTicketLimit;
     }
 
-    public void setMaxPoolTickets(int maxPoolTickets) {
-        this.maxPoolTickets = maxPoolTickets;
+    public void setpoolTicketLimit(int poolTicketLimit) {
+        this.poolTicketLimit = poolTicketLimit;
     }
 }

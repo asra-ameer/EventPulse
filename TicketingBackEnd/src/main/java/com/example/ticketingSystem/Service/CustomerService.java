@@ -1,9 +1,6 @@
 package com.example.ticketingSystem.Service;
-
 import com.example.ticketingSystem.modules.Ticket;
-import org.slf4j.LoggerFactory;
-
-import org.slf4j.Logger;
+import java.util.logging.Logger;
 
 public class CustomerService implements Runnable{
 
@@ -11,7 +8,8 @@ public class CustomerService implements Runnable{
     private final int customerID;
     private int customerRetrievalRate;
     private boolean running = true;
-    private static Logger logger= (Logger) LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger log = Logger.getLogger(CustomerService.class.getName());
+
     public CustomerService(TicketPoolService ticketPoolService, int customerID, int customerRetrievalRate) {
         this.ticketPoolService = ticketPoolService;
         this.customerID = customerID;
@@ -34,14 +32,14 @@ public class CustomerService implements Runnable{
                    Ticket ticket= ticketPoolService.removeTicket();
                    //ticket pool service la irunthu return aahum ticket object than inga varuthuu
                    if(ticket != null){
-                       logger.info("Customer"+customerID+"purchased ticket"+ticket.getTicketID());
+                       log.info("Customer"+customerID+"purchased ticket"+ticket.getTicketID());
                    }else{
-                       logger.warn("Customer"+customerID+"found no tickets available.");
+                       log.warning("Customer"+customerID+"found no tickets available.");
                    }
                }
             }catch(InterruptedException e){
                 Thread.currentThread().interrupt();
-                logger.warn("Customer"+customerID+"interrupted");
+                log.warning("Customer"+customerID+"interrupted");
                 break;
             }
         }
