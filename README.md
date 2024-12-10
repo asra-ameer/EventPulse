@@ -9,89 +9,107 @@ The Real-Time Event Ticketing System is a dynamic, high-performance application 
 
 ---
 
-## Folder Structure
+# Project Folder Structure
+
 The project is organized as follows:
 
+```plaintext
 src/main/java/com/example/ticketingSystem
 │
 ├── Controller
-│   └── TicketingController.java   # Handles HTTP requests and defines API endpoints
+│   └── TicketingController.java   # Handles API requests and system controls
 │
 ├── Modules
-│   └── Vendor.java                # Defines the Vendor model
-│   └── Customer.java              # Defines the Customer model
-│   └── TicketPool.java            # Manages ticket pool data and logic
+│   ├── Vendor.java                # Defines the Vendor entity
+│   ├── Customer.java              # Defines the Customer entity
+│   └── TicketPool.java            # Handles ticket pool data and logic
 │
 ├── Services
-│   └── VendorService.java         # Implements logic for vendor ticket release
-│   └── CustomerService.java       # Implements logic for customer ticket purchase
-│   └── TicketPoolService.java     # Centralized service for managing ticket operations
+│   ├── VendorService.java         # Handles ticket release logic for vendors
+│   ├── CustomerService.java       # Handles ticket purchase logic for customers
+│   └── TicketPoolService.java     # Manages ticket operations and data synchronization
 │
-└── Application.java               # Main entry point for the Spring Boot application
-Setup Instructions
-Prerequisites
-Java Development Kit (JDK)
-Ensure you have JDK 17 (or above) installed. Download here.
+└── Application.java               # Main Spring Boot application entry point
+```
 
-Maven
-Install Maven for building the application. Download here.
+# Setup Instructions
 
-Node.js and Angular CLI
-For the frontend (if integrated), install Node.js (v16 or later) and Angular CLI. Download Node.js, Install Angular CLI.
+## Prerequisites
 
-IDE
-Use an IDE like IntelliJ IDEA, Eclipse, or VS Code for better development experience.
+1. **Java Development Kit (JDK)**  
+   Ensure you have JDK 21 (or above) installed. [Download here](https://www.oracle.com/java/technologies/javase-downloads.html).
 
-How to Build and Run the Application
-Clone the repository:
+2. **Maven**  
+   Install Maven for building the application. [Download here](https://maven.apache.org/download.cgi).
 
-git clone https://github.com/your-repository/ticketing-system.git
-cd ticketing-system
-Build the backend:
+3. **Node.js and Angular CLI**  
+   For the frontend (if integrated), install:
+   - **Node.js** (v16 or later): [Download Node.js](https://nodejs.org/).
+   - **Angular CLI**: [Install Angular CLI](https://angular.io/cli).
 
+4. **IDE**  
+   Use an IDE like [IntelliJ IDEA](https://www.jetbrains.com/idea/), [Eclipse](https://www.eclipse.org/), or [VS Code](https://code.visualstudio.com/) for a better development experience.
+
+---
+
+## How to Build and Run the Application
+
+1. **Clone the Repository**  
+   Open your terminal and execute the following commands:
+
+   ```plaintext
+   git clone https://github.com/your-repository/ticketing-system.git
+   cd ticketing-system
+   ```
+# Build and Run Instructions
+
+## Build the Backend
+
+To build the backend, run the following command:
+
+```plaintext
 mvn clean install
-Run the backend:
-
 mvn spring-boot:run
-Set up the frontend (if applicable):
 
+```
+## Set up the frontend:
+
+```plaintext
 cd frontend
 npm install
 ng serve
-Access the application:
+```
+
+## Access the application:
 
 Backend: http://localhost:8080
-Frontend (if applicable): http://localhost:4200
-Usage Instructions
-Configuring and Starting the System
+Frontend: http://localhost:4200
+
+# Usage Instructions
+## Configuring and Starting the System
 Set Ticket Limits
 Use the following API endpoints to configure ticket limits:
 
-Set event ticket limit: POST /api/eventticket/set-max-event-tickets
+Set event ticket limit: ```plaintext POST /api/eventticket/set-max-event-tickets ```
 Body: { "maxEventTickets": 100 }
-Set pool ticket limit: POST /api/eventticket/set-max-pool-tickets
+Set pool ticket limit: ```plaintext POST /api/eventticket/set-max-pool-tickets ```
 Body: { "maxPoolTickets": 50 }
-Start Vendors and Customers
+## Start Vendors and Customers 
 Start vendors and customers to simulate ticket transactions:
 
-Start a vendor: POST /api/eventticket/start-vendor?vendorId=1&ticketReleaseRate=5
-Start a customer: POST /api/eventticket/start-customer?customerId=1&customerRetrievalRate=3
+Start a vendor: ```plaintext POST /api/eventticket/start-vendor?vendorId=1&ticketReleaseRate=5 ```
+Start a customer:  ```plaintext POST /api/eventticket/start-customer?customerId=1&customerRetrievalRate=3```
 Monitor Status
-Use GET /api/eventticket/status to view:
+```plaintext Use GET /api/eventticket/status to view:```
 
-Available tickets
-Tickets sold
+## Available tickets & Tickets sold
 Stop and Reset the System
-Use POST /api/eventticket/stop to stop all processes and reset the ticket pool.
+Use ```plaintext POST /api/eventticket/stop ``` to stop all processes and reset the ticket pool.
 
-UI Controls (Frontend) (if applicable)
-Dashboard
+# UI Controls (Frontend) 
+## Dashboard
 Displays ticket statistics (available and sold).
-Configuration Panel
-Allows admins to set ticket limits and manage vendors/customers.
-Controls
+
+## Controls
 Buttons to start/stop the system and add vendors/customers dynamically.
-Future Improvements
-Add authentication and authorization for system access.
-Integrate a persistent database for ticket records.
-Enhance the frontend with real-time updates and dashboards.
+
