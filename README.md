@@ -23,9 +23,9 @@ src/main/java/com/example/ticketingSystem
 │   └── ApplicationCOnfiguration.java   # Handles CLI system controls
 │
 ├── Modules
-│   ├── Vendor.java                # Defines the Vendor entity
-│   ├── Customer.java              # Defines the Customer entity
-│   └── TicketPool.java            # Handles ticket pool data and logic
+│   ├── Vendor.java                # Defines the Vendor class
+│   ├── Customer.java              # Defines the Customer class
+│   └── Ticket.java                # Defines the Ticket class
 │
 ├── Services
 │   ├── VendorService.java         # Handles ticket release logic for vendors
