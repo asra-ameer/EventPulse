@@ -12,7 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CLIConfiguration {
+
     public static void main(String[] args) {
+
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
         TicketPoolService ticketPoolService = context.getBean(TicketPoolService.class);
         TicketingController ticketingController = new TicketingController(ticketPoolService);

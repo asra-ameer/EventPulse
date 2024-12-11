@@ -55,11 +55,7 @@
 
 
   
-  <div class="log-console">
-    <h3>Application Logs</h3>
-    <div class="logs" *ngFor="let log of logs">{{ log }}</div>
-    <button class="clear-logs" (click)="clearLogs()">Clear Logs</button>
-  </div>
+
   
   <!-- Message Modal for Notifications -->
   <div *ngIf="message" class="modal">
@@ -69,3 +65,4 @@
     </div>
   </div>
 </div>
+

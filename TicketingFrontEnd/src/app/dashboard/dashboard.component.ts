@@ -35,7 +35,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.pollingSubscription = interval(10).subscribe(() => {
       this.getTicketCount();
     });
-    this.addLog('Dashboard initialized.');
   }
 
   startPolling() {
@@ -78,10 +77,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ) {
       this.message =
         'Please enter valid positive values for Vendor ID and Ticket  Release Rate.';
-        this.addLog('Invalid vendor input detected.');
       return;
     }
-    this.addLog(`Vendor ${this.vendorId} started with rate ${this.ticketReleaseRate} ms.`);
     this.http
       .post('http://localhost:8080/api/eventticket/start-vendor', null, {
         params: {
@@ -111,11 +108,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ) {
       this.message =
         'Please enter valid positive values for Customer ID and Customer Retrieval Rate.';
-        this.addLog('Invalid customer input detected.');
 
       return;
     }
-    this.addLog(`Customer ${this.customerId} started with rate ${this.customerRetrievalRate} ms.`);
     this.http
       .post('http://localhost:8080/api/eventticket/start-customer', null, {
         params: {
@@ -158,14 +153,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  addLog(message: string): void {
-    const timestamp = new Date().toISOString();
-    this.logs.push(`[${timestamp}] ${message}`);
-  }
-
   clearLogs(): void {
     this.logs = [];
-    this.addLog('Logs cleared.');
   }
 
   stopAll() {
@@ -192,8 +181,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if (this.pollingSubscription) {
             this.pollingSubscription.unsubscribe();
           }
-          this.addLog('System has been stopped.');
-
         },
         (error) => {
           console.error('Error stopping and resetting system', error);

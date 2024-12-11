@@ -47,7 +47,7 @@ import java.util.concurrent.Executors;
          * @param maxPoolTickets The maximum number of tickets in the pool (sent in the request body).
          * @return ResponseEntity containing a confirmation message.
          */
-        
+
         @PostMapping("/set-max-pool-tickets")
         public ResponseEntity<String> setMaxPoolTickets(@RequestBody int maxPoolTickets){
             ticketPoolService.setpoolTicketLimit(maxPoolTickets);
