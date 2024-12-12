@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
          */
 
         @PostMapping("/set-max-event-tickets")
-        public ResponseEntity<String> setMaxEventTickets(@RequestBody int maxEventTickets)
+        public ResponseEntity<String> setMaxEventTickets(@RequestParam int maxEventTickets)
         {
             ticketPoolService.setEventTicketLimit(maxEventTickets);
             return ResponseEntity.ok("Max event tickets set to " + maxEventTickets);
@@ -49,7 +49,7 @@ import java.util.concurrent.Executors;
          */
 
         @PostMapping("/set-max-pool-tickets")
-        public ResponseEntity<String> setMaxPoolTickets(@RequestBody int maxPoolTickets){
+        public ResponseEntity<String> setMaxPoolTickets(@RequestParam int maxPoolTickets){
             ticketPoolService.setpoolTicketLimit(maxPoolTickets);
             return ResponseEntity.ok("Max pool tickets set to "+maxPoolTickets);
         }

@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 @Service
 public class TicketPoolService {
     public final Queue<Ticket> ticketPool = new ConcurrentLinkedQueue<>();
-    private  int poolTicketLimit=500;
-    private int  EventTicketLimit=10000;
+    private  int poolTicketLimit=75;
+    private int  EventTicketLimit=150;
     private int ticketSold=0;
     private static final Logger log = Logger.getLogger(TicketPoolService.class.getName());
     private Set<Integer> signedupSeller = new HashSet<>();

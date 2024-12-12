@@ -19,8 +19,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ticketReleaseRate?: number;
   customerId?: number;
   customerRetrievalRate?: number;
-  maxEventTickets?: number;
-  maxPoolTickets?: number;
+  maxEventTickets:number=  0;
+  maxPoolTickets: number = 0;
   message?: string;
   private pollingSubscription?: Subscription;
   private isStopped: boolean = false;
@@ -133,24 +133,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   setMaxEventTickets() {
     this.http
-      .post(
-        `http://localhost:8080/api/eventticket/set-max-event-tickets?maxEventTickets=${this.maxEventTickets}`,
-        null
-      )
-      .subscribe((response) => {
-        this.message = `Max event tickets set to ${this.maxEventTickets}`;
-      });
+    .post(
+      `http://localhost:8080/api/eventticket/set-max-event-tickets`, 
+      null,  // No body
+      {
+        params: { maxEventTickets: this.maxEventTickets.toString() },  // Send correct query param
+        responseType: 'text'
+      }
+    )
+    .subscribe((response) => {
+      this.message = response;
+      console.log(this.maxPoolTickets);
+    }, (error) => {
+      console.error('Error occurred:', error);
+      this.message = 'An error occurred while setting the max event tickets.';
+    });
   }
 
   setMaxPoolTickets() {
     this.http
-      .post(
-        `http://localhost:8080/api/eventticket/set-max-pool-tickets?maxPoolTickets=${this.maxPoolTickets}`,
-        null
-      )
-      .subscribe((response) => {
-        this.message = `Max pool tickets set to ${this.maxPoolTickets}`;
-      });
+    .post(
+      `http://localhost:8080/api/eventticket/set-max-pool-tickets`, 
+      null,  // No body
+      {
+        params: { maxPoolTickets: this.maxPoolTickets.toString() },  // Send correct query param
+        responseType: 'text'
+      }
+    )
+    .subscribe((response) => {
+      this.message = response;
+      console.log(this.maxPoolTickets);
+    }, (error) => {
+      console.error('Error occurred:', error);
+      this.message = 'An error occurred while setting the max pool tickets.';
+    });
   }
 
   clearLogs(): void {
