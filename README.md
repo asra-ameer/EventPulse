@@ -1,4 +1,4 @@
-# Real-Time Event Ticketing System
+# EventPulse-Real Time Event Ticketing System
 
 ## Introduction
 The Real-Time Event Ticketing System is a dynamic, high-performance application for managing ticket releases and purchases in real-time. The system ensures data integrity through multi-threading and synchronization, supporting the following features:
